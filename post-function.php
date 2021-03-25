@@ -21,12 +21,6 @@ $query = $db->query("SELECT * FROM _S9Q_countries ORDER BY name ASC");
  }
 
 
-
- 
-
- 
-
-
  function my_theme_create_new_gym() {
  if (isset($_POST['d73he3gehj4ge6yr']) || wp_verify_nonce($_POST['d73he3gehj4ge6yr'], 'create_gym_form_submit' ))
  {
