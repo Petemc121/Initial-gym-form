@@ -1,5 +1,34 @@
 
 
+<style type="text/css">
+
+
+
+     /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+      
+        height: 50%;
+        width:50%;
+      }
+/* 
+      body {
+        max-width:80%;
+        margin:auto;
+      }
+
+      @media only screen and (max-width: 700px) {
+      body {
+        max-width:90%;
+        margin:auto;
+      } 
+    } */
+
+    
+     
+     
+</style>
+
 <?php
 /* Template Name: Form1*/
 get_header();
@@ -309,6 +338,12 @@ body {
   margin-top:100px;
 }
 
+#map {
+      
+        height: 50%;
+        width:50%;
+      }
+
 
 </style>
 
@@ -347,15 +382,7 @@ body {
         <div class="row">
           <div class="col-sm-6">
         <label for="inaddress1" style="float:left;">Address line 1 </label>
-        <!-- <input src="" type="text" name="Address1" class="form-control" id="inaddress1" placeholder="Street and building"> -->
-        <input
-      id="pac-input"
-      class="controls"
-      type="text"
-      placeholder="Search Box"
-        />
-<div id="map">
-    </div>
+        <input src="" type="text" name="Address1" class="form-control" id="inaddress1" placeholder="Street and building">
       </div>
       <div style="float:left;" class="col-sm-6">
         <label for="inaddress2" style="float:left;">Address Line 2 (optional)</label>
@@ -365,7 +392,8 @@ body {
 <div class="row">
           <div class="col-sm-6">
         <label for="country" style="float:left;">Country</label>
-        <select name ="country" id="country" class="form-control">
+        <input name ="country" id="country" class="form-control" list="countryList">
+        <datalist id="countryList">
         <option value = "0">Select a country</option>
         <?php 
         if($rowCount1 > 0) {
@@ -376,7 +404,7 @@ body {
           echo '<option value="">Country not availible</option>';
         }
         ?>
-        </select>
+        </datalist>
       </div>
       <div style="float:left;" class="col-sm-6">
         <label for="postcode" style="float:left;">Postcode/Zip code</label>
@@ -400,7 +428,22 @@ body {
      
     </div>
 
+     <div id="mapContain">
+<input
+      id="pac-input"
+      class="controls"
+      type="text"
+      placeholder="Search Box"
+    />
+<div id="map">
+    </div>
+    </div> 
+
     <h1 class = "titles">Contact Details</h1>
+
+    
+
+
 
     <div class="container forms"  id= "form2">
     
@@ -442,7 +485,13 @@ body {
     </form>
     
 
+    
 
+
+    <br>
+
+    </div>
+    </div>
 
 </body>
 
