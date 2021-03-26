@@ -405,6 +405,7 @@ body {
         }
         ?>
         </datalist>
+          <input type="hidden" name="answer" id="answer-hidden">
       </div>
       <div style="float:left;" class="col-sm-6">
         <label for="postcode" style="float:left;">Postcode/Zip code</label>
@@ -499,6 +500,7 @@ body {
 
 <?php
 
+ 
 
 get_footer();
 
