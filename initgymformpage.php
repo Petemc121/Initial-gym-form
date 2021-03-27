@@ -3,7 +3,6 @@
 <style type="text/css">
 
 
-
      /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
@@ -392,20 +391,20 @@ body {
 <div class="row">
           <div class="col-sm-6">
         <label for="country" style="float:left;">Country</label>
-        <input name ="country" id="country" class="form-control" list="countryList">
+        <input id="country" name ="country" class="form-control" list="countryList">
         <datalist id="countryList">
         <option value = "0">Select a country</option>
         <?php 
         if($rowCount1 > 0) {
             while($row = $query->fetch_assoc()) {
-              echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+              echo '<option data-value="'.$row['id'].'" value="'.$row['name'].'">'.$row['name'].'</option>';
             }
         } else {
           echo '<option value="">Country not availible</option>';
         }
         ?>
         </datalist>
-          <input type="hidden" name="answer" id="answer-hidden">
+          <!-- <input  type="hidden" name ="country" id="answer-hidden"> -->
       </div>
       <div style="float:left;" class="col-sm-6">
         <label for="postcode" style="float:left;">Postcode/Zip code</label>
@@ -415,15 +414,17 @@ body {
 <div class="row">
           <div class="col-sm-6">
         <label for="state" style="float:left;">State/province</label>
-        <select name ="state" id="state" class="form-control">
+        <input list="stateList" name ="state" id="state" class="form-control">
+        <datalist id="stateList">
         <option value = "0">Select a state/province</option>
-      </select>
+      </datalist>
       </div>
       <div style="float:left;" class="col-sm-6">
         <label for="city" style="float:left;">City</label>
-        <select name ="city" id="city" class="form-control">
+        <input list="cityList" name ="city" id="city" class="form-control">
+        <datalist id="cityList">
         <option value ="0">Select a city</option>
-        </select>
+      </datalist>
           </div>
 </div>
      

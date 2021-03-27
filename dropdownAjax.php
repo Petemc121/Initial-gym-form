@@ -13,7 +13,7 @@ add_action( 'wp_enqueue_scripts', function(){
 });
 
 add_action( 'wp_ajax_load_countries', 'load_countries' );
-add_action( 'wp_ajax_nopriv_load_countries', 'load_countries' );
+
 
 function load_countries() {
 	include get_template_directory() . '/dbconfig.php'; // this is how you get access to the database
@@ -32,7 +32,7 @@ function load_countries() {
         if($rowCount2 > 0){
             echo '<option value="">Select state</option>';
             while($row = $query->fetch_assoc()){ 
-                echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+                echo '<option data-value="'.$row['id'].'" value="'.$row['name'].'">'.$row['name'].'</option>';
             }
         }else{
             echo '<option value="">State not available</option>';
@@ -51,7 +51,7 @@ function load_countries() {
         if($rowCount > 0){
             echo '<option value="">Select city</option>';
             while($row = $query->fetch_assoc()){ 
-                echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+                echo '<option data-value="'.$row['id'].'" value="'.$row['name'].'">'.$row['name'].'</option>';
             }
         }else{
             echo '<option value="">City not available</option>';

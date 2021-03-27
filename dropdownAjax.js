@@ -1,31 +1,17 @@
 window.onload = function () {
-  $("#country").on("change", function (e) {
-    var input = e.target,
-      list = input.getAttribute("list"),
-      options = document.querySelectorAll("#" + list + " option"),
-      hiddenInput = document.getElementById(
-        input.getAttribute("id") + "-hidden"
-      ),
-      label = input.value;
+  $("#country").on("change", function () {
+    var shownVal = $(this).val();
+    var countryID = document.querySelector(
+      "#countryList option[value='" + shownVal + "']"
+    ).dataset.value;
 
-    hiddenInput.value = label;
-
-    for (var i = 0; i < options.length; i++) {
-      var option = options[i];
-
-      if (option.innerText === label) {
-        hiddenInput.value = option.getAttribute("data-value");
-        break;
-      }
-    }
-    var countryID = $(this).val();
     if (countryID) {
       $.ajax({
         type: "POST",
         url: ajax_object.ajax_url + "?action=load_countries",
         data: "country_id=" + countryID,
         success: function (html) {
-          $("#state").html(html);
+          $("#stateList").html(html);
           $("#city").html('<option value="">Select state first</option>');
         },
       });
@@ -36,14 +22,17 @@ window.onload = function () {
   });
 
   $("#state").on("change", function () {
-    var stateID = $(this).val();
+    var shownVal = $(this).val();
+    var stateID = document.querySelector(
+      "#stateList option[value='" + shownVal + "']"
+    ).dataset.value;
     if (stateID) {
       $.ajax({
         type: "POST",
         url: ajax_object.ajax_url + "?action=load_countries",
         data: "state_id=" + stateID,
         success: function (html) {
-          $("#city").html(html);
+          $("#cityList").html(html);
         },
       });
     } else {
