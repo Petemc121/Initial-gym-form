@@ -211,6 +211,7 @@ $callquery1 = $db->query("SELECT * FROM _S9Q_callcodes");
  }
 }
 
+
 if ($_POST) {
  if(my_theme_create_new_gym()){
    if(is_user_logged_in()) {
@@ -239,18 +240,7 @@ if ($_POST) {
 
     );
 
-       
-  //   $query2 =  $db->query("SELECT `name` FROM _S9Q_countries WHERE id = ".$_POST['country']);
-
-  //   while($row = $query2->fetch_assoc()){$country = $row['name'];}
-
-  //   $query3 =  $db->query("SELECT `name` FROM _S9Q_state WHERE id = ".$_POST['state']);
-    
-  //   while($row2 = $query3->fetch_assoc()){$state = $row2['name'];}
-
-  //   $query4 =  $db->query("SELECT `name` FROM _S9Q_city WHERE id = ".$_POST['city']);
-   
-  //  while($row3 = $query4->fetch_assoc()){$city = $row3['name'];}
+  
 
    
     
@@ -320,8 +310,7 @@ if ($_POST) {
     add_post_meta($pid, 'website', $website);
     add_post_meta($pid, 'facebook', $facebook);
     add_post_meta($pid, 'mapID', $mapID);
-    add_post_meta($pid, 'mapID', $mapID);
-    add_post_meta($pid, 'mapID', $mapID);
+   
     }
 
     // $_POST['country'];
@@ -339,7 +328,7 @@ $country = sanitize_text_field($_POST['country']);
     
  set_post_term($new_post, $country, $state, $city, $taxonomy );
  }
-    
+   
 
    }
   
@@ -350,6 +339,20 @@ $country = sanitize_text_field($_POST['country']);
  
 }
  
+  if(isset($_POST["country_id"]) && !empty($_POST["country_id"])){      
+   
+ $query2 =  $db->query("SELECT `name` FROM _S9Q_countries WHERE id = ".$_POST['country']);
+
+    while($row = $query2->fetch_assoc()){$country = $row['name'];}
+
+    $query3 =  $db->query("SELECT `name` FROM _S9Q_state WHERE id = ".$_POST['state']);
+    
+    while($row2 = $query3->fetch_assoc()){$state = $row2['name'];}
+
+    $query4 =  $db->query("SELECT `name` FROM _S9Q_city WHERE id = ".$_POST['city']);
+   
+   while($row3 = $query4->fetch_assoc()){$city = $row3['name'];}
+   }
 
 ?>
 
