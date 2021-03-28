@@ -3,6 +3,7 @@
 <style type="text/css">
 
 
+
      /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
@@ -391,9 +392,8 @@ body {
 <div class="row">
           <div class="col-sm-6">
         <label for="country" style="float:left;">Country</label>
-        <input id="country" name ="country" class="form-control" list="countryList">
+        <input id="country" name ="country" class="form-control" list="countryList" placeholder="Select a Country">
         <datalist id="countryList">
-        <option value = "0">Select a country</option>
         <?php 
         if($rowCount1 > 0) {
             while($row = $query->fetch_assoc()) {
@@ -414,16 +414,14 @@ body {
 <div class="row">
           <div class="col-sm-6">
         <label for="state" style="float:left;">State/province</label>
-        <input list="stateList" name ="state" id="state" class="form-control">
+        <input list="stateList" placeholder="Select a State" name ="state" id="state" class="form-control">
         <datalist id="stateList">
-        <option value = "0">Select a state/province</option>
       </datalist>
       </div>
       <div style="float:left;" class="col-sm-6">
         <label for="city" style="float:left;">City</label>
-        <input list="cityList" name ="city" id="city" class="form-control">
+        <input list="cityList" placeholder="Select a City" name ="city" id="city" class="form-control">
         <datalist id="cityList">
-        <option value ="0">Select a city</option>
       </datalist>
           </div>
 </div>
