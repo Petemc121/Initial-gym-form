@@ -82,7 +82,7 @@ $callquery1 = $db->query("SELECT * FROM _S9Q_callcodes");
 
   }
 
-  if ($country == '0') {
+  if ($country == '0' || $country == '') {
     echo "<style type='text/css'>
     #country{
       border-color:#fca1a1 !important;
@@ -194,7 +194,12 @@ $callquery1 = $db->query("SELECT * FROM _S9Q_callcodes");
 
   }
 
-  if ($mapID == )
+  if ($mapID == '') {
+   echo "<style>#mapValidMessage {display:block !important}</style>";
+
+    echo "<style>#fillFields {display:block !important}</style>";
+    $errors += 1;
+  }
 
   if  ($errors > 0) {
     return false;
@@ -235,17 +240,17 @@ if ($_POST) {
     );
 
        
-    $query2 =  $db->query("SELECT `name` FROM _S9Q_countries WHERE id = ".$_POST['country']);
+  //   $query2 =  $db->query("SELECT `name` FROM _S9Q_countries WHERE id = ".$_POST['country']);
 
-    while($row = $query2->fetch_assoc()){$country = $row['name'];}
+  //   while($row = $query2->fetch_assoc()){$country = $row['name'];}
 
-    $query3 =  $db->query("SELECT `name` FROM _S9Q_state WHERE id = ".$_POST['state']);
+  //   $query3 =  $db->query("SELECT `name` FROM _S9Q_state WHERE id = ".$_POST['state']);
     
-    while($row2 = $query3->fetch_assoc()){$state = $row2['name'];}
+  //   while($row2 = $query3->fetch_assoc()){$state = $row2['name'];}
 
-    $query4 =  $db->query("SELECT `name` FROM _S9Q_city WHERE id = ".$_POST['city']);
+  //   $query4 =  $db->query("SELECT `name` FROM _S9Q_city WHERE id = ".$_POST['city']);
    
-   while($row3 = $query4->fetch_assoc()){$city = $row3['name'];}
+  //  while($row3 = $query4->fetch_assoc()){$city = $row3['name'];}
 
    
     
@@ -259,6 +264,9 @@ if ($_POST) {
     $callcode = sanitize_text_field($_POST['callcode']);
     $website = sanitize_text_field($_POST['website']);
     $facebook = sanitize_text_field($_POST['facebook']);
+    $mapID = sanitize_text_field($_POST['mapID']);
+    
+   
 
       $term1 = term_exists( $country, $taxonomy );
       $term2 = term_exists( $state, $taxonomy );
@@ -303,6 +311,7 @@ if ($_POST) {
       wp_set_post_terms( $pid, $term1, $taxonomy, true );	
       wp_set_post_terms( $pid, $term2, $taxonomy, true );	
       wp_set_post_terms( $pid, $term3, $taxonomy, true );	
+   
     add_post_meta($pid, 'phone', $phone);
     add_post_meta($pid, 'Gym_name', $gymName);
     add_post_meta($pid, 'call_code', $callcode);
@@ -310,12 +319,26 @@ if ($_POST) {
     add_post_meta($pid, 'postcode', $postcode);
     add_post_meta($pid, 'website', $website);
     add_post_meta($pid, 'facebook', $facebook);
+    add_post_meta($pid, 'mapID', $mapID);
+    add_post_meta($pid, 'mapID', $mapID);
+    add_post_meta($pid, 'mapID', $mapID);
     }
 
-    set_post_term($new_post, $country, $state, $city, $taxonomy );
+    // $_POST['country'];
+    // $_POST['state'];
+    // $_POST['city'];
+    // set_post_term($new_post, $country, $state, $city, $taxonomy );
+
+ if(my_theme_create_new_gym()){
+
+
+$country = sanitize_text_field($_POST['country']);
+    $state = sanitize_text_field($_POST['state']);
+    $city = sanitize_text_field($_POST['city']);
     
-
-
+    
+ set_post_term($new_post, $country, $state, $city, $taxonomy );
+ }
     
 
    }
@@ -355,9 +378,16 @@ body {
 
 
         <h1 id="nameLoc" class="titles">Name and Location</h1>
+
         <div class="center">
         <div Id="emailValidMsg" class="alert alert-danger" role="alert">
         Please use a valid email address
+        </div>
+        </div>
+
+        <div class="center">
+        <div Id="mapValidMessage" class="alert alert-danger" role="alert">
+        Please add your location on the map
         </div>
         </div>
 
