@@ -88,7 +88,6 @@ function initAutocomplete() {
     map.fitBounds(bounds);
   });
 }
-
 var element1 = document.querySelector("#form1");
 setTimeout(function () {
   element1.style.transform = "translatex(1400px)";
