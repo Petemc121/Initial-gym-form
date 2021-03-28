@@ -31,7 +31,6 @@ function initAutocomplete() {
   map.addListener("zoom_changed", () => {
     searchInput = input.value;
     inputArray = searchInput.split(",");
-    console.log(inputArray);
     addressline2.value = inputArray[0];
     addressline1.value = inputArray[1];
     city.value = inputArray[2];
@@ -44,7 +43,10 @@ function initAutocomplete() {
   // Listen for the event fired when the user selects a prediction and retrieve
   // more details for that place.
   searchBox.addListener("places_changed", () => {
+    const placeIDInput = document.getElementById("mapID");
     const places = searchBox.getPlaces();
+    let placeID = places[0].place_id;
+    placeIDInput.value = placeID;
 
     if (places.length == 0) {
       return;
@@ -88,6 +90,7 @@ function initAutocomplete() {
     map.fitBounds(bounds);
   });
 }
+
 var element1 = document.querySelector("#form1");
 setTimeout(function () {
   element1.style.transform = "translatex(1400px)";
