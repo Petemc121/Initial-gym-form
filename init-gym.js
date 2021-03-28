@@ -5,6 +5,13 @@
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 function initAutocomplete() {
+  const addressline1 = document.getElementById("inaddress1");
+  const addressline2 = document.getElementById("inaddress2");
+  const country = document.getElementById("country");
+  const state = document.getElementById("state");
+  const city = document.getElementById("city");
+  const postcode = document.getElementById("postcode");
+
   const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -33.8688, lng: 151.2195 },
     zoom: 13,
@@ -14,10 +21,25 @@ function initAutocomplete() {
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
   // Bias the SearchBox results towards current map's viewport.
   map.addListener("bounds_changed", () => {
-    searchBox.setBounds(map.getBounds());
+    var bounds = map.getBounds();
+    searchBox.setBounds(bounds);
   });
+
+  map.addListener("zoom_changed", () => {
+    searchInput = input.value;
+    inputArray = searchInput.split(",");
+    console.log(inputArray);
+    addressline2.value = inputArray[0];
+    addressline1.value = inputArray[1];
+    city.value = inputArray[2];
+    state.value = inputArray[3];
+    country.value = inputArray[4];
+  });
+
+  3;
   let markers = [];
   // Listen for the event fired when the user selects a prediction and retrieve
   // more details for that place.
