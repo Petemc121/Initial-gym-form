@@ -55,6 +55,7 @@ $callquery1 = $db->query("SELECT * FROM _S9Q_callcodes");
   $phone = sanitize_text_field($_POST['phone']);
   $postcode = sanitize_text_field($_POST['postcode']);
   $callcode = sanitize_text_field($_POST['callcode']);
+  $mapID = sanitize_text_field($_POST['mapID']);
   
   $errors = 0;
 
@@ -192,6 +193,8 @@ $callquery1 = $db->query("SELECT * FROM _S9Q_callcodes");
 
 
   }
+
+  if ($mapID == )
 
   if  ($errors > 0) {
     return false;
@@ -428,6 +431,10 @@ body {
      
     </div>
 
+    <div class="center">
+    <input id="mapID" name="mapID"></input>
+      </div>
+
      <div id="mapContain">
 <input
       id="pac-input"
@@ -483,6 +490,8 @@ body {
     <button id="btnsub1" type="submit" name="gymsub" class="btn">Submit</button>
     </div>
     </form>
+    
+
     
 
 
