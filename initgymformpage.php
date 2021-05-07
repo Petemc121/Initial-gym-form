@@ -1,5 +1,32 @@
-
-
+<?php
+/* Template Name: Form1*/
+if(is_user_logged_in()) {
+ if(my_theme_create_new_gym()){
+ global $current_user;
+     wp_get_current_user();
+     $user_login = $current_user->user_login;
+     $user_email = $current_user->user_email;
+     $user_firstname = $current_user->user_firstname;
+     $user_lastname = $current_user->user_lastname;
+     $user_id = $current_user->ID;
+    $post_title = sanitize_text_field($_POST['gymName']);
+    $taxonomy = 'country_state_city';
+    $new_post = array(
+              'post_title' =>$post_title,
+              'post_author' =>$user_id,
+              'post_type' => 'Gyms',
+              'post_name' => $post_title,
+    );
+$country = sanitize_text_field($_POST['country']);
+    $state = sanitize_text_field($_POST['state']);
+    $city = sanitize_text_field($_POST['city']);
+ set_post_term($new_post, $country, $state, $city, $taxonomy );
+  echo "<style>#gymSuccessBlock {display:block !important}</style>";
+//  wp_safe_redirect('https://www.roamingrolls.com/Gyms/'.$post_title);
+//  exit();
+ }
+}
+?>
 <style type="text/css">
 
 
@@ -11,26 +38,14 @@
         height: 50%;
         width:50%;
       }
-/* 
-      body {
-        max-width:80%;
-        margin:auto;
+
+      label {
+        color:#1b1b58 !important;
       }
 
-      @media only screen and (max-width: 700px) {
-      body {
-        max-width:90%;
-        margin:auto;
-      } 
-    } */
-
-    
-     
      
 </style>
-
 <?php
-/* Template Name: Form1*/
 get_header();
 include get_template_directory() . '/dbconfig.php';
 
@@ -43,7 +58,9 @@ $callquery1 = $db->query("SELECT * FROM _S9Q_callcodes");
 
 
  function my_theme_create_new_gym() {
- if (isset($_POST['d73he3gehj4ge6yr']) || wp_verify_nonce($_POST['d73he3gehj4ge6yr'], 'create_gym_form_submit' ))
+ if (isset($_POST['d73he3gehj4ge6yr']))
+ {
+  if ( wp_verify_nonce($_POST['d73he3gehj4ge6yr'], 'create_gym_form_submit' ))
  {
 
   $gymName = sanitize_text_field($_POST['gymName']);
@@ -210,44 +227,14 @@ $callquery1 = $db->query("SELECT * FROM _S9Q_callcodes");
   
  }
 }
+ }
 
 
-if ($_POST) {
- if(my_theme_create_new_gym()){
-   if(is_user_logged_in()) {
-     global $current_user;
 
- 
-  
-
-     wp_get_current_user();
-
-     $user_login = $current_user->user_login;
-     $user_email = $current_user->user_email;
-     $user_firstname = $current_user->user_firstname;
-     $user_lastname = $current_user->user_lastname;
-     $user_id = $current_user->ID;
-
-    $post_title = sanitize_text_field($_POST['gymName']);
-
-    $taxonomy = 'country_state_city';
-    $new_post = array(
-              'post_title' =>$post_title,
-              'post_author' =>$user_id,
-              'post_type' => 'Gyms',
-              'post_name' => $post_title,
-                    
-
-    );
-
-  
-
-   
-    
 
    function set_post_term( $new_post, $country,$state, $city, $taxonomy ) {	
     $gymName = sanitize_text_field($_POST['gymName']);
-    $address1 = sanitize_text_field($_POST['Address1']);
+    $address1 = sanitize_text_field($_POST['Address1']); 
     $email = sanitize_text_field($_POST['email']);
     $phone = sanitize_text_field($_POST['phone']);
     $postcode = sanitize_text_field($_POST['postcode']);
@@ -310,6 +297,10 @@ if ($_POST) {
     add_post_meta($pid, 'website', $website);
     add_post_meta($pid, 'facebook', $facebook);
     add_post_meta($pid, 'mapID', $mapID);
+    add_post_meta($pid, 'email', $email);
+      
+
+
    
     }
 
@@ -318,26 +309,9 @@ if ($_POST) {
     // $_POST['city'];
     // set_post_term($new_post, $country, $state, $city, $taxonomy );
 
- if(my_theme_create_new_gym()){
-
-
-$country = sanitize_text_field($_POST['country']);
-    $state = sanitize_text_field($_POST['state']);
-    $city = sanitize_text_field($_POST['city']);
-    
-    
- set_post_term($new_post, $country, $state, $city, $taxonomy );
- }
-   
-
-   }
-  
-
-
- } 
 
  
-}
+
  
   if(isset($_POST["country_id"]) && !empty($_POST["country_id"])){      
    
@@ -363,15 +337,13 @@ label {
   font-weight:bold;
 }
 
+.form-control {
+  text-align:left !important;
+}
+
 body {
   margin-top:100px;
 }
-
-#map {
-      
-        height: 50%;
-        width:50%;
-      }
 
 
 </style>
@@ -380,9 +352,14 @@ body {
 
 
 
+  <div class="center">
+
         <h1 id="nameLoc" class="titles">Name and Location</h1>
 
-        <div class="center">
+ </div>
+
+
+  <div class="center">
         <div Id="emailValidMsg" class="alert alert-danger" role="alert">
         Please use a valid email address
         </div>
@@ -406,9 +383,38 @@ body {
         </div>
         </div>
 
-      <div class="container forms" id ="form1">
-      <form name="initgymform" method="post" enctype="multipart/form-data">
+  <div style="margin-bottom:-10px;" class="center">
+
+        <p class="gymsug">Find your location on the map below. We'll then fill the address fields automatically for you.</h1>
+
+ </div>
+
+ <div class="center">
+
+        <p class="gymsug" id="gymFillSuggestion">(Some address fields may still require filling/editing.)</h1>
+
+ </div>
+ <form name="initgymform" method="post" enctype="multipart/form-data">
       <?php wp_nonce_field( 'create_gym_form_submit', 'd73he3gehj4ge6yr' ); ?>
+  <div class="center">
+    <input id="mapID" name="mapID"></input>
+      </div>
+
+     <div id="mapContain">
+<input
+      id="pac-input"
+      class="controls"
+      type="text"
+      placeholder="Search Box"
+    />
+<div id="map">
+    </div>
+    </div> 
+       
+
+        <div class= "center">
+      <div class="forms" id ="form1">
+     
       <div class="form-group">
           <label for="name">Gym Name</label>
           <input name="gymName" class="form-control" id="gymName" >
@@ -463,29 +469,17 @@ body {
 </div>
      
     </div>
-
-    <div class="center">
-    <input id="mapID" name="mapID"></input>
       </div>
 
-     <div id="mapContain">
-<input
-      id="pac-input"
-      class="controls"
-      type="text"
-      placeholder="Search Box"
-    />
-<div id="map">
-    </div>
-    </div> 
 
+    <div class="center">
     <h1 class = "titles">Contact Details</h1>
-
+      </div>
     
 
 
-
-    <div class="container forms"  id= "form2">
+        <div class = "center">
+    <div class=" forms"  id= "form2">
     
     <div class="form-group">
           <label for="exampleInputEmail1">Website</label>
@@ -507,14 +501,14 @@ body {
         <option value='0'>Country Code</option>
         <?php
         while($row = $callquery1->fetch_assoc()) {
-          echo '<option value="'.$row['phoneCode'].'">'.$row['countryName'].' (+'.$row['phoneCode'].')</option>';
+          echo '<option value="'.$row['phoneCode'].'">'.$row['code'].' (+'.$row['phoneCode'].')</option>';
         }
         ?>
       </select>
             <input id= "phone" type="text" name="phone" class="form-control" id="phonein" >
       </div>
           </div>
-
+      </div>
 
     
     </div>
@@ -533,6 +527,18 @@ body {
     </div>
     </div>
 
+    <div id = "gymSuccessBlock" class = "blocker">
+      <div class="center">
+      <div id="gymSuccess" class="alert alert-success" role="alert">
+          Congratulations! You've given us all the information we need. All we need to do now is verify your gym. This will take 1-3 days. We'll then send you an email confirming your gym page is live and ready to edit!
+      </div>
+      </div>
+
+      <div class="center">
+     <button id="navHome" type="submit"  class="btn"><a href="https://www.roamingrolls.com/">Homepage</a></button>
+      </div>
+
+    </div>
 </body>
 
 <div>
